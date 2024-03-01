@@ -1,6 +1,12 @@
 <?php
 
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\PhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,17 +19,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/', function () {
-    return 'Selamat Datang';
-});
+// Route::get('/', function () {
+//     return 'Selamat Datang';
+// });
 
-Route::get('/about', function () {
-    return 'NIM 2241720126';
-});
+// Route::get('/about', function () {
+//     return 'NIM 2241720126';
+// });
 
 Route::get('/hello', function () {
     return 'Hello';
@@ -41,9 +47,9 @@ Route::get('/posts/{posts}/comments/{comments}', function ($postId, $commentId) 
     return 'Pos ke-' . $postId . " Komentar ke-: " . $commentId;
 });
 
-Route::get('/articles/{id}', function ($articlesId) {
-    return 'Halaman Artikel dengan ID-' . $articlesId;
-});
+// Route::get('/articles/{id}', function ($articlesId) {
+//     return 'Halaman Artikel dengan ID-' . $articlesId;
+// });
 
 // Route::get('/user/{name?}', function ($name = null) {
 //     return 'Nama saya ' . $name;
@@ -94,3 +100,27 @@ Route::get('/user/profile', function () {
 
 // redirect routes
 Route::redirect('/here', '/there');
+
+// lanjutan untuk controller
+Route::get('/hello', [WelcomeController::class, 'hello']);
+
+// Controller ke routing
+// Route::get('/', [PageController::class, 'index']);
+
+// Route::get('/about', [PageController::class, 'about']);
+
+// Route::get('/articles/{id}', [PageController::class, 'articles']);
+
+Route::get('/', HomeController::class);
+Route::get('/about', AboutController::class);
+Route::get('/articles/{id}', ArticleController::class);
+
+// resource controller
+Route::resource('photos', PhotoController::class);
+
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+]);
+Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+]);
